@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2Note Acoustic Trio - Band Acustica</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f5f0;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '♫';
+            position: absolute;
+            font-size: 15rem;
+            opacity: 0.1;
+            right: -3rem;
+            top: -3rem;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        nav {
+            background: #34495e;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+            font-size: 1.1rem;
+        }
+
+        nav a:hover {
+            color: #3498db;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        section {
+            margin-bottom: 4rem;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: #3498db;
+        }
+
+        .band-members {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .member {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .member:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .member-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .member h3 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .member p {
+            color: #7f8c8d;
+            font-style: italic;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .video-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .video-card:hover {
+            transform: scale(1.03);
+        }
+
+        .video-placeholder {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .video-placeholder:hover {
+            opacity: 0.9;
+        }
+
+        .video-info {
+            padding: 1.5rem;
+        }
+
+        .video-info h3 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .video-info p {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .calendar {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .event {
+            display: flex;
+            align-items: center;
+            padding: 1.5rem;
+            border-left: 4px solid #3498db;
+            background: #f8f9fa;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+
+        .event:hover {
+            background: #e8f4f8;
+        }
+
+        .event-date {
+            background: #3498db;
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-right: 2rem;
+            min-width: 80px;
+        }
+
+        .event-date .day {
+            font-size: 2rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .event-date .month {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .event-details h3 {
+            color: #2c3e50;
+            margin-bottom: 0.3rem;
+        }
+
+        .event-details p {
+            color: #7f8c8d;
+        }
+
+        .contact-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 2rem auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+            color: white;
+            padding: 1rem 3rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            font-weight: bold;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        .social-links {
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            margin: 0 1rem;
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: #3498db;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .event {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .event-date {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="logo2note.jog" alt="2Note Acoustic Trio" style="width: 150px; height: 150px; border-radius: 50%; border: 4px solid white; margin-bottom: 1rem; box-shadow: 0 4px 8px rgba(0,0,0,0.3);">
+        <h1>2Note Acoustic Trio</h1>
+        <p class="tagline">La musica dal vivo che emoziona</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#band">La Band</a></li>
+            <li><a href="#video">Video</a></li>
+            <li><a href="#calendario">Calendario</a></li>
+            <li><a href="#contatti">Contatti</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <section id="band">
+            <h2>La Band</h2>
+            <p style="text-align: center; max-width: 700px; margin: 0 auto 3rem; font-size: 1.1rem; color: #555;">
+                2Note Acoustic Trio porta l'energia della musica live nei vostri eventi con un repertorio ricco 
+                che spazia dal pop al rock, dal soul al jazz. Tre musicisti, un'unica passione: emozionare il pubblico.
+            </p>
+            <div class="band-members">
+                <div class="member">
+                    <div class="member-icon">🎤</div>
+                    <h3>ANTHONY</h3>
+                    <p>Voce principale</p>
+                </div>
+                <div class="member">
+                    <div class="member-icon">🎸</div>
+                    <h3>M@X</h3>
+                    <p>Chitarra e seconda voce</p>
+                </div>
+                <div class="member">
+                    <div class="member-icon">🥁</div>
+                    <h3>THE ZAZ</h3>
+                    <p>Percussioni</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="video">
+            <h2>Video dalle nostre serate</h2>
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="video-placeholder" onclick="alert('Inserisci qui il link del tuo video YouTube o Vimeo')">
+                        ▶
+                    </div>
+                    <div class="video-info">
+                        <h3>Live al Caffè Centrale</h3>
+                        <p>Una serata indimenticabile con un pubblico fantastico - Settembre 2024</p>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <div class="video-placeholder" onclick="alert('Inserisci qui il link del tuo video YouTube o Vimeo')">
+                        ▶
+                    </div>
+                    <div class="video-info">
+                        <h3>Matrimonio Villa dei Fiori</h3>
+                        <p>L'aperitivo musicale perfetto per un giorno speciale - Agosto 2024</p>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <div class="video-placeholder" onclick="alert('Inserisci qui il link del tuo video YouTube o Vimeo')">
+                        ▶
+                    </div>
+                    <div class="video-info">
+                        <h3>Festival Piazza Grande</h3>
+                        <p>Due ore di musica sotto le stelle - Luglio 2024</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="calendario">
+            <h2>Prossimi Eventi</h2>
+            <div class="calendar">
+                <div class="event">
+                    <div class="event-date">
+                        <span class="day">15</span>
+                        <span class="month">Nov</span>
+                    </div>
+                    <div class="event-details">
+                        <h3>Ristorante Il Giardino</h3>
+                        <p>📍 Via Roma 45, Milano | ⏰ 21:00</p>
+                    </div>
+                </div>
+                <div class="event">
+                    <div class="event-date">
+                        <span class="day">23</span>
+                        <span class="month">Nov</span>
+                    </div>
+                    <div class="event-details">
+                        <h3>Wine Bar Vintage</h3>
+                        <p>📍 Corso Vittorio 12, Torino | ⏰ 20:30</p>
+                    </div>
+                </div>
+                <div class="event">
+                    <div class="event-date">
+                        <span class="day">07</span>
+                        <span class="month">Dic</span>
+                    </div>
+                    <div class="event-details">
+                        <h3>Festa Aziendale Privata</h3>
+                        <p>📍 Location riservata | ⏰ 19:00</p>
+                    </div>
+                </div>
+                <div class="event">
+                    <div class="event-date">
+                        <span class="day">31</span>
+                        <span class="month">Dic</span>
+                    </div>
+                    <div class="event-details">
+                        <h3>Capodanno al Castello</h3>
+                        <p>📍 Castello di Rivoli | ⏰ 22:00</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contatti">
+            <h2>Contattaci</h2>
+            <p style="text-align: center; margin-bottom: 2rem; font-size: 1.1rem; color: #555;">
+                Vuoi portare la nostra musica al tuo evento? Compila il modulo e ti ricontatteremo al più presto!
+            </p>
+            <form class="contact-form" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label for="nome">Nome *</label>
+                    <input type="text" id="nome" name="nome" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="telefono">Telefono</label>
+                    <input type="tel" id="telefono" name="telefono">
+                </div>
+                <div class="form-group">
+                    <label for="evento">Tipo di Evento</label>
+                    <input type="text" id="evento" name="evento" placeholder="Es: Matrimonio, Festa aziendale, etc.">
+                </div>
+                <div class="form-group">
+                    <label for="messaggio">Messaggio *</label>
+                    <textarea id="messaggio" name="messaggio" required placeholder="Raccontaci del tuo evento..."></textarea>
+                </div>
+                <div style="text-align: center;">
+                    <button type="submit">Invia Richiesta</button>
+                </div>
+            </form>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 2Note Acoustic Trio - Tutti i diritti riservati</p>
+        <div class="social-links">
+            <a href="#" title="Facebook">📘</a>
+            <a href="#" title="Instagram">📷</a>
+            <a href="#" title="YouTube">📹</a>
+            <a href="#" title="Email">✉️</a>
+        </div>
+        <p style="margin-top: 1rem; font-size: 0.9rem;">
+            📧 info@acousticvibestrio.it | 📱 +39 123 456 7890
+        </p>
+    </footer>
+
+    <script>
+        function handleSubmit(e) {
+            e.preventDefault();
+            const formData = {
+                nome: document.getElementById('nome').value,
+                email: document.getElementById('email').value,
+                telefono: document.getElementById('telefono').value,
+                evento: document.getElementById('evento').value,
+                messaggio: document.getElementById('messaggio').value
+            };
+            
+            alert('Grazie per averci contattato! Ti risponderemo al più presto.\n\n' + 
+                  'I tuoi dati:\n' +
+                  'Nome: ' + formData.nome + '\n' +
+                  'Email: ' + formData.email);
+            
+            e.target.reset();
+        }
+
+        // Smooth scrolling per i link di navigazione
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+</html>cript>
+</body>
+</html>
