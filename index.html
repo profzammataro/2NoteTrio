@@ -187,6 +187,13 @@
             opacity: 0.9;
         }
 
+        .video-embed {
+            width: 100%;
+            height: 220px;
+            border: none;
+            display: block;
+        }
+
         .video-info {
             padding: 1.5rem;
         }
@@ -310,6 +317,39 @@
             box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
         }
 
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .photo-item {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+            aspect-ratio: 4/3;
+            cursor: zoom-in;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .photo-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s;
+        }
+
+        .photo-item:hover img {
+            transform: scale(1.05);
+        }
+
         footer {
             background: #2c3e50;
             color: white;
@@ -370,6 +410,7 @@
         <ul>
             <li><a href="#band">La Band</a></li>
             <li><a href="#video">Video</a></li>
+            <li><a href="#galleria">Galleria</a></li>
             <li><a href="#calendario">Calendario</a></li>
             <li><a href="#contatti">Contatti</a></li>
         </ul>
@@ -405,76 +446,83 @@
             <h2>Video dalle nostre serate</h2>
             <div class="video-grid">
                 <div class="video-card">
-                    <div class="video-placeholder" onclick="alert('Inserisci qui il link del tuo video YouTube o Vimeo')">
-                        ▶
-                    </div>
+                    <iframe class="video-embed"
+                        src="https://player.cloudinary.com/embed/?cloud_name=dpjdgvydp&public_id=VID-20260418-WA0019_rj0nah"
+                        allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+                        allowfullscreen></iframe>
                     <div class="video-info">
-                        <h3>Live al Caffè Centrale</h3>
-                        <p>Una serata indimenticabile con un pubblico fantastico - Settembre 2024</p>
+                        <h3>Live al Mawi – Via Eschilo</h3>
+                        <p>Una serata fantastica al Mawi di Roma – 16 Aprile 2026</p>
                     </div>
                 </div>
                 <div class="video-card">
-                    <div class="video-placeholder" onclick="alert('Inserisci qui il link del tuo video YouTube o Vimeo')">
-                        ▶
-                    </div>
+                    <iframe class="video-embed"
+                        src="https://player.cloudinary.com/embed/?cloud_name=dpjdgvydp&public_id=VID-20260418-WA0012_r5uw69"
+                        allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+                        allowfullscreen></iframe>
                     <div class="video-info">
-                        <h3>Matrimonio Villa dei Fiori</h3>
-                        <p>L'aperitivo musicale perfetto per un giorno speciale - Agosto 2024</p>
-                    </div>
-                </div>
-                <div class="video-card">
-                    <div class="video-placeholder" onclick="alert('Inserisci qui il link del tuo video YouTube o Vimeo')">
-                        ▶
-                    </div>
-                    <div class="video-info">
-                        <h3>Festival Piazza Grande</h3>
-                        <p>Due ore di musica sotto le stelle - Luglio 2024</p>
+                        <h3>Live al Mawi – Via Eschilo</h3>
+                        <p>Il pubblico del Mawi ci ha regalato una serata indimenticabile – 16 Aprile 2026</p>
                     </div>
                 </div>
             </div>
         </section>
 
+        <section id="galleria">
+            <h2>Galleria Foto</h2>
+            <p style="text-align: center; max-width: 600px; margin: 0 auto 2rem; color: #555; font-style: italic;">
+                Scorci dalle nostre serate — Mawi, Roma — 16 Aprile 2026
+            </p>
+            <div class="photo-grid">
+                <div class="photo-item">
+                    <img src="https://res.cloudinary.com/dpjdgvydp/image/upload/v1776521169/IMG-20260327-WA0003_uboabe.jpg"
+                         alt="2Note Trio live al Mawi"
+                         onclick="openLightbox(this.src)">
+                </div>
+                <div class="photo-item">
+                    <img src="https://res.cloudinary.com/dpjdgvydp/image/upload/v1776522093/IMG-20260417-WA0000_gb5i8w.jpg"
+                         alt="2Note Trio live al Mawi"
+                         onclick="openLightbox(this.src)">
+                </div>
+                <div class="photo-item">
+                    <img src="https://res.cloudinary.com/dpjdgvydp/image/upload/v1776522090/IMG-20260418-WA0004_tqmytu.jpg"
+                         alt="2Note Trio live al Mawi"
+                         onclick="openLightbox(this.src)">
+                </div>
+                <div class="photo-item">
+                    <img src="https://res.cloudinary.com/dpjdgvydp/image/upload/v1776522088/IMG-20260418-WA0015_kfgrnl.jpg"
+                         alt="2Note Trio live al Mawi"
+                         onclick="openLightbox(this.src)">
+                </div>
+            </div>
+        </section>
+
+        <!-- Lightbox -->
+        <div id="lightbox" onclick="closeLightbox()" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:1000; align-items:center; justify-content:center; cursor:zoom-out;">
+            <img id="lightbox-img" src="" alt="" style="max-width:90%; max-height:90vh; border-radius:8px; box-shadow: 0 0 40px rgba(0,0,0,0.8);">
+        </div>
+
         <section id="calendario">
             <h2>Prossimi Eventi</h2>
             <div class="calendar">
-                <div class="event">
-                    <div class="event-date">
-                        <span class="day">15</span>
-                        <span class="month">Nov</span>
+                <div class="event" style="border-left-color: #27ae60; background: #f0faf4;">
+                    <div class="event-date" style="background: #27ae60;">
+                        <span class="day">16</span>
+                        <span class="month">Apr</span>
                     </div>
                     <div class="event-details">
-                        <h3>Ristorante Il Giardino</h3>
-                        <p>📍 Via Roma 45, Milano | ⏰ 21:00</p>
+                        <h3>Mawi – Via Eschilo, Roma ✅</h3>
+                        <p>📍 Via Eschilo, Roma | Serata live acustica — <em>Grazie a tutti!</em></p>
                     </div>
                 </div>
-                <div class="event">
+                <div class="event" style="opacity: 0.5;">
                     <div class="event-date">
-                        <span class="day">23</span>
-                        <span class="month">Nov</span>
+                        <span class="day">??</span>
+                        <span class="month">???</span>
                     </div>
                     <div class="event-details">
-                        <h3>Wine Bar Vintage</h3>
-                        <p>📍 Corso Vittorio 12, Torino | ⏰ 20:30</p>
-                    </div>
-                </div>
-                <div class="event">
-                    <div class="event-date">
-                        <span class="day">07</span>
-                        <span class="month">Dic</span>
-                    </div>
-                    <div class="event-details">
-                        <h3>Festa Aziendale Privata</h3>
-                        <p>📍 Location riservata | ⏰ 19:00</p>
-                    </div>
-                </div>
-                <div class="event">
-                    <div class="event-date">
-                        <span class="day">31</span>
-                        <span class="month">Dic</span>
-                    </div>
-                    <div class="event-details">
-                        <h3>Capodanno al Castello</h3>
-                        <p>📍 Castello di Rivoli | ⏰ 22:00</p>
+                        <h3>Prossima data in arrivo...</h3>
+                        <p>📍 Seguici sui social per non perdere i prossimi eventi!</p>
                     </div>
                 </div>
             </div>
@@ -514,7 +562,7 @@
     </div>
 
     <footer>
-        <p>&copy; 2024 2Note Acoustic Trio - Tutti i diritti riservati</p>
+        <p>&copy; 2026 2Note Acoustic Trio - Tutti i diritti riservati</p>
         <div class="social-links">
             <a href="#" title="Facebook">📘</a>
             <a href="#" title="Instagram">📷</a>
@@ -527,6 +575,19 @@
     </footer>
 
     <script>
+        function openLightbox(src) {
+            const lb = document.getElementById('lightbox');
+            document.getElementById('lightbox-img').src = src;
+            lb.style.display = 'flex';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = 'none';
+        }
+
+        // Chiudi lightbox con tasto ESC
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
         function handleSubmit(e) {
             e.preventDefault();
             const formData = {
