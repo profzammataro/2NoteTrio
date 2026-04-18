@@ -123,11 +123,15 @@
 
         .member {
             background: white;
-            padding: 2rem;
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             text-align: center;
             transition: transform 0.3s, box-shadow 0.3s;
+            overflow: hidden;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
         }
 
         .member:hover {
@@ -135,14 +139,31 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
 
+        .member-photo {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            object-position: top;
+            display: block;
+            transition: transform 0.4s;
+        }
+
+        .member:hover .member-photo {
+            transform: scale(1.05);
+        }
+
+        .member-info {
+            padding: 1.5rem;
+        }
+
         .member-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
         }
 
         .member h3 {
             color: #2c3e50;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem;
             font-size: 1.5rem;
         }
 
@@ -150,6 +171,108 @@
             color: #7f8c8d;
             font-style: italic;
         }
+
+        .member-badge {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            font-size: 0.75rem;
+            padding: 0.2rem 0.7rem;
+            border-radius: 20px;
+            margin-top: 0.5rem;
+        }
+
+        /* Pagine singole membri */
+        .member-page {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.92);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+
+        .member-page.active { display: block; }
+
+        .member-page-inner {
+            max-width: 700px;
+            margin: 3rem auto;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        .member-page-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            color: white;
+        }
+
+        .member-page-header img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: top;
+            border: 3px solid white;
+            flex-shrink: 0;
+        }
+
+        .member-page-header h2 {
+            color: white;
+            font-size: 2rem;
+            margin-bottom: 0.2rem;
+            text-align: left;
+        }
+
+        .member-page-header h2::after { display: none; }
+
+        .member-page-header p {
+            font-style: italic;
+            opacity: 0.85;
+        }
+
+        .member-page-body {
+            padding: 2rem;
+        }
+
+        .member-page-photo {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            object-position: top;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .member-page-body p {
+            color: #555;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .close-member {
+            display: block;
+            margin: 1.5rem auto 0;
+            background: #2c3e50;
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .close-member:hover { background: #3498db; }
 
         .video-grid {
             display: grid;
@@ -424,23 +547,101 @@
                 che spazia dal pop al rock, dal soul al jazz. Tre musicisti, un'unica passione: emozionare il pubblico.
             </p>
             <div class="band-members">
-                <div class="member">
-                    <div class="member-icon">🎤</div>
-                    <h3>ANTHONY</h3>
-                    <p>Voce principale</p>
+                <div class="member" onclick="openMember('anthony')">
+                    <img class="member-photo"
+                         src="https://res.cloudinary.com/dpjdgvydp/image/upload/v1776545762/IMG-20260117-WA0048_ndlnyv.jpg"
+                         alt="Anthony">
+                    <div class="member-info">
+                        <div class="member-icon">🎤</div>
+                        <h3>ANTHONY</h3>
+                        <p>Voce principale</p>
+                        <span class="member-badge">scopri di più</span>
+                    </div>
                 </div>
-                <div class="member">
-                    <div class="member-icon">🎸</div>
-                    <h3>M@X</h3>
-                    <p>Chitarra e seconda voce</p>
+                <div class="member" onclick="openMember('max')">
+                    <img class="member-photo"
+                         src="https://res.cloudinary.com/dpjdgvydp/image/upload/v1776545762/IMG-20260117-WA0054_guw7xk.jpg"
+                         alt="M@x">
+                    <div class="member-info">
+                        <div class="member-icon">🎸</div>
+                        <h3>M@X</h3>
+                        <p>Chitarra</p>
+                        <span class="member-badge">scopri di più</span>
+                    </div>
                 </div>
-                <div class="member">
-                    <div class="member-icon">🥁</div>
-                    <h3>THE ZAZ</h3>
-                    <p>Percussioni</p>
+                <div class="member" onclick="openMember('zaz')">
+                    <img class="member-photo"
+                         src="https://res.cloudinary.com/dpjdgvydp/image/upload/v1776545762/IMG-20260117-WA0005_bih6w9.jpg"
+                         alt="The Zaz">
+                    <div class="member-info">
+                        <div class="member-icon">🥁</div>
+                        <h3>THE ZAZ</h3>
+                        <p>Percussioni e seconda voce</p>
+                        <span class="member-badge">scopri di più</span>
+                    </div>
                 </div>
             </div>
         </section>
+
+        <!-- Pagina Anthony -->
+        <div class="member-page" id="page-anthony">
+            <div class="member-page-inner">
+                <div class="member-page-header">
+                    <img src="https://res.cloudinary.com/dpjdgvydp/image/upload/v1776545762/IMG-20260117-WA0048_ndlnyv.jpg" alt="Anthony">
+                    <div>
+                        <h2>ANTHONY</h2>
+                        <p>🎤 Voce principale</p>
+                    </div>
+                </div>
+                <div class="member-page-body">
+                    <img class="member-page-photo"
+                         src="https://res.cloudinary.com/dpjdgvydp/image/upload/v1776545762/IMG-20260117-WA0048_ndlnyv.jpg"
+                         alt="Anthony live">
+                    <p>La sua voce è il cuore pulsante del 2Note Acoustic Trio.<br>Biografia e curiosità in arrivo presto! 🎵</p>
+                    <button class="close-member" onclick="closeMember('anthony')">✕ Chiudi</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagina M@x -->
+        <div class="member-page" id="page-max">
+            <div class="member-page-inner">
+                <div class="member-page-header">
+                    <img src="https://res.cloudinary.com/dpjdgvydp/image/upload/v1776545762/IMG-20260117-WA0054_guw7xk.jpg" alt="M@x">
+                    <div>
+                        <h2>M@X</h2>
+                        <p>🎸 Chitarra</p>
+                    </div>
+                </div>
+                <div class="member-page-body">
+                    <img class="member-page-photo"
+                         src="https://res.cloudinary.com/dpjdgvydp/image/upload/v1776545762/IMG-20260117-WA0054_guw7xk.jpg"
+                         alt="M@x live">
+                    <p>Le sue sei corde danno colore e anima ad ogni brano.<br>Biografia e curiosità in arrivo presto! 🎵</p>
+                    <button class="close-member" onclick="closeMember('max')">✕ Chiudi</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagina The Zaz -->
+        <div class="member-page" id="page-zaz">
+            <div class="member-page-inner">
+                <div class="member-page-header">
+                    <img src="https://res.cloudinary.com/dpjdgvydp/image/upload/v1776545762/IMG-20260117-WA0005_bih6w9.jpg" alt="The Zaz">
+                    <div>
+                        <h2>THE ZAZ</h2>
+                        <p>🥁 Percussioni e seconda voce</p>
+                    </div>
+                </div>
+                <div class="member-page-body">
+                    <img class="member-page-photo"
+                         src="https://res.cloudinary.com/dpjdgvydp/image/upload/v1776545762/IMG-20260117-WA0005_bih6w9.jpg"
+                         alt="The Zaz live">
+                    <p>Il ritmo è tutto. The Zaz tiene il tempo e scalda il pubblico.<br>Biografia e curiosità in arrivo presto! 🎵</p>
+                    <button class="close-member" onclick="closeMember('zaz')">✕ Chiudi</button>
+                </div>
+            </div>
+        </div>
 
         <section id="video">
             <h2>Video dalle nostre serate</h2>
@@ -463,6 +664,16 @@
                     <div class="video-info">
                         <h3>Live al Mawi – Via Eschilo</h3>
                         <p>Il pubblico del Mawi ci ha regalato una serata indimenticabile – 16 Aprile 2026</p>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <iframe class="video-embed"
+                        src="https://player.cloudinary.com/embed/?cloud_name=dpjdgvydp&public_id=VID-20260418-WA0030_lexqch"
+                        allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+                        allowfullscreen></iframe>
+                    <div class="video-info">
+                        <h3>Serata di Compleanno – Cena Privata</h3>
+                        <p>Jazz e lounge per l'aperitivo, poi brani cantabili e dance fino a tarda notte – Dicembre 2025</p>
                     </div>
                 </div>
             </div>
@@ -575,6 +786,26 @@
     </footer>
 
     <script>
+        function openMember(name) {
+            document.getElementById('page-' + name).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMember(name) {
+            document.getElementById('page-' + name).classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Chiudi pagina membro cliccando fuori dall'inner box
+        document.querySelectorAll('.member-page').forEach(page => {
+            page.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+
         function openLightbox(src) {
             const lb = document.getElementById('lightbox');
             document.getElementById('lightbox-img').src = src;
