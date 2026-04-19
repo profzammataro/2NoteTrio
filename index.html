@@ -499,27 +499,110 @@
             transform: translateY(-3px);
         }
 
-        @media (max-width: 768px) {
-            h1 {
+        /* ── TABLET ── */
+        @media (max-width: 900px) {
+            .container {
+                padding: 2rem 1.5rem;
+            }
+            h2 {
                 font-size: 2rem;
             }
-
-            h2 {
-                font-size: 1.8rem;
+            .band-members {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             }
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+            .photo-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
 
+        /* ── MOBILE ── */
+        @media (max-width: 600px) {
+            header {
+                padding: 1.5rem 1rem;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+            .tagline {
+                font-size: 1rem;
+            }
+            nav ul {
+                gap: 0.5rem;
+                padding: 0 0.5rem;
+            }
+            nav a {
+                font-size: 0.85rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+            .container {
+                padding: 1.5rem 1rem;
+            }
+            section {
+                margin-bottom: 2.5rem;
+            }
+            .band-members {
+                grid-template-columns: 1fr;
+                gap: 1.2rem;
+            }
+            .member-page-inner {
+                margin: 1rem;
+                border-radius: 12px;
+            }
+            .member-page-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.8rem;
+            }
+            .member-page-header h2 {
+                font-size: 1.5rem;
+                text-align: center;
+            }
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+            .video-embed {
+                height: 200px;
+            }
+            .photo-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.5rem;
+            }
             .event {
                 flex-direction: column;
                 text-align: center;
             }
-
             .event-date {
                 margin-right: 0;
-                margin-bottom: 1rem;
+                margin-bottom: 0.8rem;
+                align-self: center;
             }
+            .contact-form {
+                padding: 1.2rem;
+            }
+            .social-links a {
+                font-size: 1.5rem;
+                margin: 0 0.5rem;
+            }
+            footer {
+                padding: 1.5rem 1rem;
+            }
+        }
 
-            nav ul {
-                gap: 1rem;
+        /* ── SCHERMI MOLTO PICCOLI ── */
+        @media (max-width: 360px) {
+            nav a {
+                font-size: 0.75rem;
+            }
+            h1 {
+                font-size: 1.3rem;
+            }
+            .photo-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -527,7 +610,7 @@
 </head>
 <body>
     <header>
-        <img src="logo2note.jpg" alt="2Note Acoustic Trio" style="width: 500px; height: 500px; border-radius: 50%; border: 4px solid white; margin-bottom: 1rem; box-shadow: 0 4px 8px rgba(0,0,0,0.3);">
+        <img src="logo2note.jpg" alt="2Note Acoustic Trio" style="width: min(280px, 70vw); height: min(280px, 70vw); border-radius: 50%; border: 4px solid white; margin-bottom: 1rem; box-shadow: 0 4px 8px rgba(0,0,0,0.3);">
         <h1>2Note Acoustic Trio</h1>
         <p class="tagline">La musica dal vivo che emoziona</p>
     </header>
@@ -792,10 +875,10 @@
             <a href="#" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
             <a href="#" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
             <a href="#" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
-            <a href="mailto:info@acousticvibestrio.it" title="Email"><i class="fas fa-envelope"></i></a>
+            <a href="mailto:acoustic2notetrio@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
         </div>
         <p style="margin-top: 1rem; font-size: 0.9rem;">
-            📧 info@acousticvibestrio.it | 📱 +39 123 456 7890
+            📧 acoustic2notetrio@gmail.com
         </p>
     </footer>
 
