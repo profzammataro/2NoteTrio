@@ -487,14 +487,16 @@
 
         .social-links a {
             color: white;
-            margin: 0 1rem;
-            font-size: 1.5rem;
+            margin: 0 0.8rem;
+            font-size: 1.8rem;
             text-decoration: none;
-            transition: color 0.3s;
+            transition: color 0.3s, transform 0.3s;
+            display: inline-block;
         }
 
         .social-links a:hover {
             color: #3498db;
+            transform: translateY(-3px);
         }
 
         @media (max-width: 768px) {
@@ -521,6 +523,7 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
     <header>
@@ -550,10 +553,10 @@
                 <div class="member" onclick="openMember('anthony')">
                     <img class="member-photo"
                          src="https://res.cloudinary.com/dpjdgvydp/image/upload/v1776545762/IMG-20260117-WA0048_ndlnyv.jpg"
-                         alt="Anthony">
+                         alt="Tony">
                     <div class="member-info">
                         <div class="member-icon">🎤</div>
-                        <h3>ANTHONY</h3>
+                        <h3>TONY</h3>
                         <p>Voce principale</p>
                         <span class="member-badge">scopri di più</span>
                     </div>
@@ -587,16 +590,16 @@
         <div class="member-page" id="page-anthony">
             <div class="member-page-inner">
                 <div class="member-page-header">
-                    <img src="https://res.cloudinary.com/dpjdgvydp/image/upload/v1776545762/IMG-20260117-WA0048_ndlnyv.jpg" alt="Anthony">
+                    <img src="https://res.cloudinary.com/dpjdgvydp/image/upload/v1776545762/IMG-20260117-WA0048_ndlnyv.jpg" alt="Tony">
                     <div>
-                        <h2>ANTHONY</h2>
+                        <h2>TONY</h2>
                         <p>🎤 Voce principale</p>
                     </div>
                 </div>
                 <div class="member-page-body">
                     <img class="member-page-photo"
                          src="https://res.cloudinary.com/dpjdgvydp/image/upload/v1776545762/IMG-20260117-WA0048_ndlnyv.jpg"
-                         alt="Anthony live">
+                         alt="Tony live">
                     <p>La sua voce è il cuore pulsante del 2Note Acoustic Trio.<br>Biografia e curiosità in arrivo presto! 🎵</p>
                     <button class="close-member" onclick="closeMember('anthony')">✕ Chiudi</button>
                 </div>
@@ -785,10 +788,11 @@
     <footer>
         <p>&copy; 2026 2Note Acoustic Trio - Tutti i diritti riservati</p>
         <div class="social-links">
-            <a href="#" title="Facebook">📘</a>
-            <a href="#" title="Instagram">📷</a>
-            <a href="#" title="YouTube">📹</a>
-            <a href="#" title="Email">✉️</a>
+            <a href="https://www.facebook.com/share/1AxLeGbU8g/?mibextid=wwXIfr" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="#" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="#" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
+            <a href="mailto:info@acousticvibestrio.it" title="Email"><i class="fas fa-envelope"></i></a>
         </div>
         <p style="margin-top: 1rem; font-size: 0.9rem;">
             📧 info@acousticvibestrio.it | 📱 +39 123 456 7890
