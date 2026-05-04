@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2Note Acoustic Trio - Band Acustica</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f5f0;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '♫';
+            position: absolute;
+            font-size: 15rem;
+            opacity: 0.1;
+            right: -3rem;
+            top: -3rem;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        nav {
+            background: #34495e;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+            font-size: 1.1rem;
+        }
+
+        nav a:hover {
+            color: #3498db;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        section {
+            margin-bottom: 4rem;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: #3498db;
+        }
+
+        .band-members {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .member {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            overflow: hidden;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .member:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .member-photo {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            object-position: top;
+            display: block;
+            transition: transform 0.4s;
+        }
+
+        .member:hover .member-photo {
+            transform: scale(1.05);
+        }
+
+        .member-info {
+            padding: 1.5rem;
+        }
+
+        .member-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .member h3 {
+            color: #2c3e50;
+            margin-bottom: 0.3rem;
+            font-size: 1.5rem;
+        }
+
+        .member p {
+            color: #7f8c8d;
+            font-style: italic;
+        }
+
+        .member-badge {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            font-size: 0.75rem;
+            padding: 0.2rem 0.7rem;
+            border-radius: 20px;
+            margin-top: 0.5rem;
+        }
+
+        /* Pagine singole membri */
+        .member-page {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.92);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+
+        .member-page.active { display: block; }
+
+        .member-page-inner {
+            max-width: 700px;
+            margin: 3rem auto;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        .member-page-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            color: white;
+        }
+
+        .member-page-header img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: top;
+            border: 3px solid white;
+            flex-shrink: 0;
+        }
+
+        .member-page-header h2 {
+            color: white;
+            font-size: 2rem;
+            margin-bottom: 0.2rem;
+            text-align: left;
+        }
+
+        .member-page-header h2::after { display: none; }
+
+        .member-page-header p {
+            font-style: italic;
+            opacity: 0.85;
+        }
+
+        .member-page-body {
+            padding: 2rem;
+        }
+
+        .member-page-photo {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            object-position: top;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .member-page-body p {
+            color: #555;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .close-member {
+            display: block;
+            margin: 1.5rem auto 0;
+            background: #2c3e50;
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .close-member:hover { background: #3498db; }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .video-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .video-card:hover {
+            transform: scale(1.03);
+        }
+
+        .video-placeholder {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .video-placeholder:hover {
+            opacity: 0.9;
+        }
+
+        .video-embed {
+            width: 100%;
+            height: 220px;
+            border: none;
+            display: block;
+        }
+
+        .video-info {
+            padding: 1.5rem;
+        }
+
+        .video-info h3 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .video-info p {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .calendar {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .event {
+            display: flex;
+            align-items: center;
+            padding: 1.5rem;
+            border-left: 4px solid #3498db;
+            background: #f8f9fa;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+
+        .event:hover {
+            background: #e8f4f8;
+        }
+
+        .event-date {
+            background: #3498db;
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-right: 2rem;
+            min-width: 80px;
+        }
+
+        .event-date .day {
+            font-size: 2rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .event-date .month {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .event-details h3 {
+            color: #2c3e50;
+            margin-bottom: 0.3rem;
+        }
+
+        .event-details p {
+            color: #7f8c8d;
+        }
+
+        .contact-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 2rem auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+            color: white;
+            padding: 1rem 3rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            font-weight: bold;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .photo-item {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+            aspect-ratio: 4/3;
+            cursor: zoom-in;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .photo-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s;
+        }
+
+        .photo-item:hover img {
+            transform: scale(1.05);
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        .social-links {
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            margin: 0 0.8rem;
+            font-size: 1.8rem;
+            text-decoration: none;
+            transition: color 0.3s, transform 0.3s;
+            display: inline-block;
+        }
+
+        .social-links a:hover {
+            color: #3498db;
+            transform: translateY(-3px);
+        }
+
+        /* ── TABLET ── */
+        @media (max-width: 900px) {
+            .container {
+                padding: 2rem 1.5rem;
+            }
+            h2 {
+                font-size: 2rem;
+            }
+            .band-members {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            }
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+            .photo-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* ── MOBILE ── */
+        @media (max-width: 600px) {
+            header {
+                padding: 1.5rem 1rem;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+            .tagline {
+                font-size: 1rem;
+            }
+            nav ul {
+                gap: 0.5rem;
+                padding: 0 0.5rem;
+            }
+            nav a {
+                font-size: 0.85rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+            .container {
+                padding: 1.5rem 1rem;
+            }
+            section {
+                margin-bottom: 2.5rem;
+            }
+            .band-members {
+                grid-template-columns: 1fr;
+                gap: 1.2rem;
+            }
+            .member-page-inner {
+                margin: 1rem;
+                border-radius: 12px;
+            }
+            .member-page-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.8rem;
+            }
+            .member-page-header h2 {
+                font-size: 1.5rem;
+                text-align: center;
+            }
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+            .video-embed {
+                height: 200px;
+            }
+            .photo-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.5rem;
+            }
+            .event {
+                flex-direction: column;
+                text-align: center;
+            }
+            .event-date {
+                margin-right: 0;
+                margin-bottom: 0.8rem;
+                align-self: center;
+            }
+            .contact-form {
+                padding: 1.2rem;
+            }
+            .social-links a {
+                font-size: 1.5rem;
+                margin: 0 0.5rem;
+            }
+            footer {
+                padding: 1.5rem 1rem;
+            }
+        }
+
+        /* ── SCHERMI MOLTO PICCOLI ── */
+        @media (max-width: 360px) {
+            nav a {
+                font-size: 0.75rem;
+            }
+            h1 {
+                font-size: 1.3rem;
+            }
+            .photo-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <img src="logo2note.jpg" alt="2Note Acoustic Trio" style="width: min(280px, 70vw); height: min(280px, 70vw); border-radius: 50%; border: 4px solid white; margin-bottom: 1rem; box-shadow: 0 4px 8px rgba(0,0,0,0.3);">
+        <h1>2Note Acoustic Trio</h1>
+        <p class="tagline">La musica dal vivo che emoziona</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#band">La Band</a></li>
+            <li><a href="#video">Video</a></li>
+            <li><a href="#galleria">Galleria</a></li>
+            <li><a href="#calendario">Calendario</a></li>
+            <li><a href="#contatti">Contatti</a></li>
+        </ul>
+    </nav>
+
+    <!-- BANNER DATE MAGGIO -->
+    <div id="banner-maggio" style="
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 40%, #0f3460 100%);
+        color: white;
+        padding: 2.5rem 1.5rem 2rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        border-bottom: 3px solid #e67e22;
+    ">
+        <!-- Stelle animate -->
+        <div style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:hidden;">
+            <span style="position:absolute;top:10%;left:5%;font-size:1.2rem;animation:twinkle 2.1s ease-in-out infinite;">✨</span>
+            <span style="position:absolute;top:65%;left:3%;font-size:0.9rem;animation:twinkle 2.8s ease-in-out infinite 0.5s;">⭐</span>
+            <span style="position:absolute;top:15%;right:5%;font-size:1rem;animation:twinkle 1.9s ease-in-out infinite 0.3s;">✨</span>
+            <span style="position:absolute;top:75%;right:8%;font-size:1.3rem;animation:twinkle 2.5s ease-in-out infinite 1s;">⭐</span>
+            <span style="position:absolute;top:45%;left:12%;font-size:0.8rem;animation:twinkle 3s ease-in-out infinite 0.7s;">✦</span>
+            <span style="position:absolute;top:35%;right:15%;font-size:0.8rem;animation:twinkle 2.3s ease-in-out infinite 1.2s;">✦</span>
+        </div>
+        <style>
+            @keyframes twinkle {
+                0%,100%{opacity:0.2;transform:scale(1);}
+                50%{opacity:1;transform:scale(1.3);}
+            }
+            @keyframes pulse-btn {
+                0%,100%{box-shadow:0 0 0 0 rgba(230,126,34,0.5);}
+                50%{box-shadow:0 0 0 12px rgba(230,126,34,0);}
+            }
+        </style>
+
+        <p style="font-size:0.85rem;letter-spacing:3px;text-transform:uppercase;color:#e67e22;margin-bottom:1rem;font-weight:bold;">🎸 Prossime date live – Maggio 2026</p>
+
+        <!-- Due card affiancate -->
+        <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem;">
+
+            <!-- 10 Maggio -->
+            <div style="
+                background:rgba(155,89,182,0.25);
+                border:2px solid #9b59b6;
+                border-radius:16px;
+                padding:1.2rem 1.4rem;
+                min-width:260px;
+                max-width:340px;
+                flex:1;
+                text-align:left;
+            ">
+                <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.7rem;">
+                    <div style="background:#9b59b6;border-radius:10px;padding:0.5rem 0.8rem;text-align:center;min-width:54px;">
+                        <span style="font-size:1.6rem;font-weight:900;display:block;line-height:1;">10</span>
+                        <span style="font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;">Mag</span>
+                    </div>
+                    <div>
+                        <div style="font-weight:900;font-size:1.05rem;">🍺 Treefolk's P.H.</div>
+                        <div style="font-size:0.85rem;opacity:0.8;">Viale Trastevere 192, Roma</div>
+                    </div>
+                </div>
+                <div style="background:rgba(155,89,182,0.3);border-radius:8px;padding:0.4rem 0.7rem;font-size:0.85rem;margin-bottom:0.6rem;">
+                    🎉 Festa cambio nome &amp; gestione · Aperitivo <strong>ore 18:00</strong>
+                </div>
+                <div style="font-size:0.8rem;opacity:0.75;">
+                    📲 Prima delle 18:
+                    <a href="https://wa.me/393401123341" style="color:#c39bd3;font-weight:bold;">WhatsApp 340 1123341</a><br>
+                    📞 Dopo le 18:
+                    <a href="tel:0687650779" style="color:#c39bd3;font-weight:bold;">06 87650779</a>
+                </div>
+            </div>
+
+            <!-- 16 Maggio -->
+            <div style="
+                background:rgba(230,126,34,0.2);
+                border:2px solid #e67e22;
+                border-radius:16px;
+                padding:1.2rem 1.4rem;
+                min-width:260px;
+                max-width:340px;
+                flex:1;
+                text-align:left;
+                animation:pulse-btn 2.5s infinite;
+            ">
+                <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.7rem;">
+                    <div style="background:#e67e22;border-radius:10px;padding:0.5rem 0.8rem;text-align:center;min-width:54px;">
+                        <span style="font-size:1.6rem;font-weight:900;display:block;line-height:1;">16</span>
+                        <span style="font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;">Mag</span>
+                    </div>
+                    <div>
+                        <div style="font-weight:900;font-size:1.05rem;">🎸 Mawi</div>
+                        <div style="font-size:0.85rem;opacity:0.8;">Via Eschilo 84b, Roma</div>
+                    </div>
+                </div>
+                <div style="background:rgba(230,126,34,0.3);border-radius:8px;padding:0.4rem 0.7rem;font-size:0.85rem;margin-bottom:0.6rem;">
+                    🎵 Live Music · <strong>Ore 22:00</strong> · Prenotazione consigliata
+                </div>
+                <div style="font-size:0.8rem;opacity:0.75;">
+                    📞 <a href="tel:0645492907" style="color:#f0a96b;font-weight:bold;">06 4549 2907</a> &nbsp;|&nbsp;
+                    <a href="https://wa.me/393486571913" style="color:#25D366;font-weight:bold;">💬 WhatsApp</a>
+                </div>
+            </div>
+
+        </div>
+
+        <p style="font-size:0.82rem;opacity:0.6;font-style:italic;">Un viaggio tra <span style="color:#f39c12;">pop</span>, <span style="color:#e74c3c;">rock</span>, <span style="color:#2ecc71;">swing</span> e <span style="color:#c39bd3;">soul</span> — reinterpretato in chiave acustica</p>
+
+        <button onclick="document.getElementById('banner-maggio').style.display='none'" style="
+            position:absolute;top:10px;right:14px;
+            background:none;border:none;color:rgba(255,255,255,0.4);
+            font-size:1.4rem;cursor:pointer;line-height:1;
+        " title="Chiudi">×</button>
+    </div>
+    <!-- FINE BANNER -->
+
+    <div class="container">
+        <section id="band">
+            <h2>La Band</h2>
+            <p style="text-align: center; max-width: 700px; margin: 0 auto 3rem; font-size: 1.1rem; color: #555;">
+                2Note Acoustic Trio porta l'energia della musica live nei vostri eventi con un repertorio ricco 
+                che spazia dal pop al rock, dal soul al jazz. Tre musicisti, un'unica passione: emozionare il pubblico.
+            </p>
+            <div class="band-members">
+                <div class="member" onclick="openMember('anthony')">
+                    <img class="member-photo"
+                         src="https://res.cloudinary.com/dpjdgvydp/image/upload/v1776545762/IMG-20260117-WA0048_ndlnyv.jpg"
+                         alt="Tony">
+                    <div class="member-info">
+                        <div class="member-icon">🎤</div>
+                        <h3>TONY</h3>
+                        <p>Voce principale</p>
+                        <span class="member-badge">scopri di più</span>
+                    </div>
+                </div>
+                <div class="member" onclick="openMember('max')">
+                    <img class="member-photo"
+                         src="https://res.cloudinary.com/dpjdgvydp/image/upload/v1776545762/IMG-20260117-WA0054_guw7xk.jpg"
+                         alt="M@x">
+                    <div class="member-info">
+                        <div class="member-icon">🎸</div>
+                        <h3>M@X</h3>
+                        <p>Chitarra</p>
+                        <span class="member-badge">scopri di più</span>
+                    </div>
+                </div>
+                <div class="member" onclick="openMember('zaz')">
+                    <img class="member-photo"
+                         src="https://res.cloudinary.com/dpjdgvydp/image/upload/v1776545762/IMG-20260117-WA0005_bih6w9.jpg"
+                         alt="The Zaz">
+                    <div class="member-info">
+                        <div class="member-icon">🥁</div>
+                        <h3>THE ZAZ</h3>
+                        <p>Percussioni e seconda voce</p>
+                        <span class="member-badge">scopri di più</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pagina Anthony -->
+        <div class="member-page" id="page-anthony">
+            <div class="member-page-inner">
+                <div class="member-page-header">
+                    <img src="https://res.cloudinary.com/dpjdgvydp/image/upload/v1776545762/IMG-20260117-WA0048_ndlnyv.jpg" alt="Tony">
+                    <div>
+                        <h2>TONY</h2>
+                        <p>🎤 Voce principale</p>
+                    </div>
+                </div>
+                <div class="member-page-body">
+                    <img class="member-page-photo"
+                         src="https://res.cloudinary.com/dpjdgvydp/image/upload/v1776545762/IMG-20260117-WA0048_ndlnyv.jpg"
+                         alt="Tony live">
+                    <p>La sua voce è il cuore pulsante del 2Note Acoustic Trio.<br>Biografia e curiosità in arrivo presto! 🎵</p>
+                    <button class="close-member" onclick="closeMember('anthony')">✕ Chiudi</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagina M@x -->
+        <div class="member-page" id="page-max">
+            <div class="member-page-inner">
+                <div class="member-page-header">
+                    <img src="https://res.cloudinary.com/dpjdgvydp/image/upload/v1776545762/IMG-20260117-WA0054_guw7xk.jpg" alt="M@x">
+                    <div>
+                        <h2>M@X</h2>
+                        <p>🎸 Chitarra</p>
+                    </div>
+                </div>
+                <div class="member-page-body">
+                    <img class="member-page-photo"
+                         src="https://res.cloudinary.com/dpjdgvydp/image/upload/v1776545762/IMG-20260117-WA0054_guw7xk.jpg"
+                         alt="M@x live">
+                    <p>Le sue sei corde danno colore e anima ad ogni brano.<br>Biografia e curiosità in arrivo presto! 🎵</p>
+                    <button class="close-member" onclick="closeMember('max')">✕ Chiudi</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagina The Zaz -->
+        <div class="member-page" id="page-zaz">
+            <div class="member-page-inner">
+                <div class="member-page-header">
+                    <img src="https://res.cloudinary.com/dpjdgvydp/image/upload/v1776545762/IMG-20260117-WA0005_bih6w9.jpg" alt="The Zaz">
+                    <div>
+                        <h2>THE ZAZ</h2>
+                        <p>🥁 Percussioni e seconda voce</p>
+                    </div>
+                </div>
+                <div class="member-page-body">
+                    <img class="member-page-photo"
+                         src="https://res.cloudinary.com/dpjdgvydp/image/upload/v1776545762/IMG-20260117-WA0005_bih6w9.jpg"
+                         alt="The Zaz live">
+                    <p>Il ritmo è tutto. The Zaz tiene il tempo e scalda il pubblico.<br>Biografia e curiosità in arrivo presto! 🎵</p>
+                    <button class="close-member" onclick="closeMember('zaz')">✕ Chiudi</button>
+                </div>
+            </div>
+        </div>
+
+        <section id="video">
+            <h2>Video dalle nostre serate</h2>
+            <div class="video-grid">
+                <div class="video-card">
+                    <iframe class="video-embed"
+                        src="https://player.cloudinary.com/embed/?cloud_name=dpjdgvydp&public_id=VID-20260418-WA0019_rj0nah"
+                        allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+                        allowfullscreen></iframe>
+                    <div class="video-info">
+                        <h3>Live al Mawi – Via Eschilo</h3>
+                        <p>Una serata fantastica al Mawi di Roma – 16 Aprile 2026</p>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <iframe class="video-embed"
+                        src="https://player.cloudinary.com/embed/?cloud_name=dpjdgvydp&public_id=VID-20260418-WA0012_r5uw69"
+                        allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+                        allowfullscreen></iframe>
+                    <div class="video-info">
+                        <h3>Live al Mawi – Via Eschilo</h3>
+                        <p>Il pubblico del Mawi ci ha regalato una serata indimenticabile – 16 Aprile 2026</p>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <iframe class="video-embed"
+                        src="https://player.cloudinary.com/embed/?cloud_name=dpjdgvydp&public_id=VID-20260418-WA0030_lexqch"
+                        allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+                        allowfullscreen></iframe>
+                    <div class="video-info">
+                        <h3>Serata di Compleanno – Villa alla Riballina</h3>
+                        <p>Jazz e lounge per la cena, poi brani cantabili e dance – Castel Nuovo di Porto, Roma – 17 Gennaio 2026</p>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <iframe class="video-embed"
+                        src="https://player.cloudinary.com/embed/?cloud_name=dpjdgvydp&public_id=VID-20260418-WA0018_detgdk"
+                        allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+                        allowfullscreen></iframe>
+                    <div class="video-info">
+                        <h3>Live al Mawi – Via Eschilo</h3>
+                        <p>Mawi, Roma – 16 Aprile 2026</p>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <iframe class="video-embed"
+                        src="https://player.cloudinary.com/embed/?cloud_name=dpjdgvydp&public_id=VID-20260418-WA0017_qoampt"
+                        allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+                        allowfullscreen></iframe>
+                    <div class="video-info">
+                        <h3>Live al Mawi – Via Eschilo</h3>
+                        <p>Mawi, Roma – 16 Aprile 2026</p>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <iframe class="video-embed"
+                        src="https://player.cloudinary.com/embed/?cloud_name=dpjdgvydp&public_id=VID-20260418-WA0016_c02ekk"
+                        allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+                        allowfullscreen></iframe>
+                    <div class="video-info">
+                        <h3>Live al Mawi – Via Eschilo</h3>
+                        <p>Mawi, Roma – 16 Aprile 2026</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="galleria">
+            <h2>Galleria Foto</h2>
+            <p style="text-align: center; max-width: 600px; margin: 0 auto 2rem; color: #555; font-style: italic;">
+                Scorci dalle nostre serate — Mawi, Roma — 16 Aprile 2026
+            </p>
+            <div class="photo-grid">
+                <div class="photo-item">
+                    <img src="https://res.cloudinary.com/dpjdgvydp/image/upload/v1776521169/IMG-20260327-WA0003_uboabe.jpg"
+                         alt="2Note Trio live al Mawi"
+                         onclick="openLightbox(this.src)">
+                </div>
+                <div class="photo-item">
+                    <img src="https://res.cloudinary.com/dpjdgvydp/image/upload/v1776522093/IMG-20260417-WA0000_gb5i8w.jpg"
+                         alt="2Note Trio live al Mawi"
+                         onclick="openLightbox(this.src)">
+                </div>
+                <div class="photo-item">
+                    <img src="https://res.cloudinary.com/dpjdgvydp/image/upload/v1776522090/IMG-20260418-WA0004_tqmytu.jpg"
+                         alt="2Note Trio live al Mawi"
+                         onclick="openLightbox(this.src)">
+                </div>
+                <div class="photo-item">
+                    <img src="https://res.cloudinary.com/dpjdgvydp/image/upload/v1776522088/IMG-20260418-WA0015_kfgrnl.jpg"
+                         alt="2Note Trio live al Mawi"
+                         onclick="openLightbox(this.src)">
+                </div>
+                <div class="photo-item">
+                    <img src="https://res.cloudinary.com/dpjdgvydp/image/upload/v1776709683/FB_IMG_1776709535160_jmcbwn.jpg"
+                         alt="2Note Trio live"
+                         onclick="openLightbox(this.src)">
+                </div>
+                <div class="photo-item">
+                    <img src="https://res.cloudinary.com/dpjdgvydp/image/upload/v1776709683/FB_IMG_1776709546475_bjpnl4.jpg"
+                         alt="2Note Trio live"
+                         onclick="openLightbox(this.src)">
+                </div>
+                <div class="photo-item">
+                    <img src="https://res.cloudinary.com/dpjdgvydp/image/upload/v1776709683/FB_IMG_1776709556663_y4ic5r.jpg"
+                         alt="2Note Trio live"
+                         onclick="openLightbox(this.src)">
+                </div>
+                <div class="photo-item">
+                    <img src="https://res.cloudinary.com/dpjdgvydp/image/upload/v1776709951/FB_IMG_1776709895139_vplzzw.jpg"
+                         alt="2Note Trio live"
+                         onclick="openLightbox(this.src)">
+                </div>
+                <div class="photo-item">
+                    <img src="https://res.cloudinary.com/dpjdgvydp/image/upload/v1776709952/FB_IMG_1776709885895_pylqwb.jpg"
+                         alt="2Note Trio live"
+                         onclick="openLightbox(this.src)">
+                </div>
+            </div>
+        </section>
+
+        <!-- Lightbox -->
+        <div id="lightbox" onclick="closeLightbox()" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:1000; align-items:center; justify-content:center; cursor:zoom-out;">
+            <img id="lightbox-img" src="" alt="" style="max-width:90%; max-height:90vh; border-radius:8px; box-shadow: 0 0 40px rgba(0,0,0,0.8);">
+        </div>
+
+        <section id="calendario">
+            <h2>Prossimi Eventi</h2>
+            <div class="calendar">
+                <div class="event" style="border-left-color: #27ae60; background: #f0faf4;">
+                    <div class="event-date" style="background: #27ae60;">
+                        <span class="day">17</span>
+                        <span class="month">Gen</span>
+                    </div>
+                    <div class="event-details">
+                        <h3>Villa alla Riballina ✅</h3>
+                        <p>📍 Castel Nuovo di Porto, Roma | Serata di compleanno — jazz, lounge e dance</p>
+                    </div>
+                </div>
+                <div class="event" style="border-left-color: #27ae60; background: #f0faf4;">
+                    <div class="event-date" style="background: #27ae60;">
+                        <span class="day">16</span>
+                        <span class="month">Apr</span>
+                    </div>
+                    <div class="event-details">
+                        <h3>Mawi – Via Eschilo, Roma ✅</h3>
+                        <p>📍 Via Eschilo, Roma | Serata live acustica — <em>Grazie a tutti!</em></p>
+                    </div>
+                </div>
+                <div class="event" style="border-left-color: #9b59b6; background: #fdf4ff;">
+                    <div class="event-date" style="background: #9b59b6;">
+                        <span class="day">10</span>
+                        <span class="month">Mag</span>
+                    </div>
+                    <div class="event-details">
+                        <h3>🍺 Treefolk's Public House – Trastevere</h3>
+                        <p>📍 Viale di Trastevere 192, Roma | Live Aperitivo ore 18:00</p>
+                        <p style="margin-top: 0.4rem; font-size: 0.9rem; color: #9b59b6; font-weight: bold;">🎉 Festa inaugurale cambio nome &amp; gestione · 3 giorni di eventi!</p>
+                        <p style="margin-top: 0.3rem; font-size: 0.85rem; color: #777;">📲 Prenotazioni prima delle 18: WhatsApp <a href="https://wa.me/393401123341" style="color:#9b59b6;">340 1123341</a> · Dopo le 18: Tel <a href="tel:0687650779" style="color:#9b59b6;">06 87650779</a></p>
+                    </div>
+                </div>
+                <div class="event" style="border-left-color: #e67e22; background: #fef9f0;">
+                    <div class="event-date" style="background: #e67e22;">
+                        <span class="day">16</span>
+                        <span class="month">Mag</span>
+                    </div>
+                    <div class="event-details">
+                        <h3>🎸 Mawi – Via Eschilo, Roma</h3>
+                        <p>📍 Via Eschilo 84b, 00125 Roma | Live Music ore 22:00</p>
+                        <p style="margin-top: 0.4rem; font-size: 0.9rem; color: #e67e22; font-weight: bold;">⚠️ Fortemente consigliata la prenotazione per la cena · 📞 06 4549 2907 · 📱 +39 348 657 1913</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contatti">
+            <h2>Contattaci</h2>
+            <p style="text-align: center; margin-bottom: 2rem; font-size: 1.1rem; color: #555;">
+                Vuoi portare la nostra musica al tuo evento? Compila il modulo e ti ricontatteremo al più presto!
+            </p>
+            <form class="contact-form" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label for="nome">Nome *</label>
+                    <input type="text" id="nome" name="nome" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="telefono">Telefono</label>
+                    <input type="tel" id="telefono" name="telefono">
+                </div>
+                <div class="form-group">
+                    <label for="evento">Tipo di Evento</label>
+                    <input type="text" id="evento" name="evento" placeholder="Es: Matrimonio, Festa aziendale, etc.">
+                </div>
+                <div class="form-group">
+                    <label for="messaggio">Messaggio *</label>
+                    <textarea id="messaggio" name="messaggio" required placeholder="Raccontaci del tuo evento..."></textarea>
+                </div>
+                <div style="text-align: center;">
+                    <button type="submit">Invia Richiesta</button>
+                </div>
+            </form>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 2Note Acoustic Trio - Tutti i diritti riservati</p>
+        <p style="margin-top: 1rem; font-size: 0.95rem; opacity: 0.85; font-style: italic;">Seguici sui nostri social...</p>
+        <div class="social-links">
+            <a href="https://www.facebook.com/share/1AxLeGbU8g/?mibextid=wwXIfr" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="#" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="#" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
+            <a href="mailto:acoustic2notetrio@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+        </div>
+        <p style="margin-top: 1rem; font-size: 0.9rem;">
+            📧 <a href="mailto:acoustic2notetrio@gmail.com" style="color: white; text-decoration: underline;">acoustic2notetrio@gmail.com</a>
+        </p>
+    </footer>
+
+    <script>
+        function openMember(name) {
+            document.getElementById('page-' + name).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMember(name) {
+            document.getElementById('page-' + name).classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Chiudi pagina membro cliccando fuori dall'inner box
+        document.querySelectorAll('.member-page').forEach(page => {
+            page.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+
+        function openLightbox(src) {
+            const lb = document.getElementById('lightbox');
+            document.getElementById('lightbox-img').src = src;
+            lb.style.display = 'flex';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = 'none';
+        }
+
+        // Chiudi lightbox con tasto ESC
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+        function handleSubmit(e) {
+            e.preventDefault();
+            const formData = {
+                nome: document.getElementById('nome').value,
+                email: document.getElementById('email').value,
+                telefono: document.getElementById('telefono').value,
+                evento: document.getElementById('evento').value,
+                messaggio: document.getElementById('messaggio').value
+            };
+            
+            alert('Grazie per averci contattato! Ti risponderemo al più presto.\n\n' + 
+                  'I tuoi dati:\n' +
+                  'Nome: ' + formData.nome + '\n' +
+                  'Email: ' + formData.email);
+            
+            e.target.reset();
+        }
+
+        // Smooth scrolling per i link di navigazione
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+</html>cript>
+</body>
+</html>
